@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuro Exploring</title>
+
+<style>
+:root {
+  --primary-bg: #000000;
+  --primary-text: #FFFFFF;
+  --row-light: #1a1a1a;
+  --row-dark: #000000;
+  --hover-color: #333333;
+  --button-bg: #000;
+  --button-text: #fff;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin:0; padding:0;
+  background: var(--primary-bg);
+  color: var(--primary-text);
+}
+
+header {
+  text-align:center; padding:15px; border-bottom:1px solid #444;
+}
+
+header h1 {margin:0;}
+
+.button-container {
+  text-align:center; margin:15px 0;
+}
+
+.button-container button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: 1px solid #fff;
+  padding:10px 20px;
+  margin:5px;
+  cursor:pointer;
+  border-radius:6px;
+  font-size:1rem;
+}
+
+.button-container button:hover {background: var(--hover-color);}
+
+section {
+  margin:20px auto;
+  padding:20px;
+  width:90%;
+  max-width:1000px;
+  background:#111;
+  border-radius:10px;
+}
+
+h2 {color: var(--primary-text); margin-bottom:10px;}
+
+.table-container {overflow-x:auto; max-height:400px; border:1px solid #fff; border-radius:6px;}
+
+table {width:100%; border-collapse:collapse;}
+th, td {padding:10px; border-bottom:1px solid #444; text-align:left; font-size:0.95rem;}
+th {position: sticky; top:0; background:#222;}
+tbody tr:nth-child(even){background:var(--row-light);}
+tbody tr:nth-child(odd){background:var(--row-dark);}
+tbody tr:hover{background:var(--hover-color);}
+#searchInput {width:100%; padding:10px; margin-bottom:10px; border-radius:6px; border:1px solid #444; background:#000; color:#fff;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Neuro Exploring</h1>
+</header>
+
+<div class="button-container">
+  <button onclick="scrollToSection('paris')">Paris</button>
+  <button onclick="scrollToSection('barcelona')">Barcelona</button>
+  <button onclick="scrollToSection('lisbon')">Lisbon</button>
+  <button onclick="scrollToSection('porto')">Porto</button>
+  <button onclick="scrollToSection('brussels')">Brussels</button>
+  <button onclick="scrollToSection('sintra')">Sintra</button>
+  <button onclick="scrollToSection('evora')">Evora</button>
+  <button onclick="scrollToSection('arganil')">Arganil</button>
+</div>
+
+<!-- ----------------- PARIS ----------------- -->
+<section id="paris">
+  <h2>Paris</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/48d862d35/paris/" data-label_1="PARIS" data-label_2="WEATHER" data-theme="original">PARIS WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/fr/paris/623/weather-forecast/623" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- BARCELONA ----------------- -->
+<section id="barcelona">
+  <h2>Barcelona</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/41d392d17/barcelona/" data-label_1="BARCELONA" data-label_2="WEATHER" data-theme="original">BARCELONA WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/es/la-barceloneta/1466824/weather-forecast/1466824" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- LISBON ----------------- -->
+<section id="lisbon">
+  <h2>Lisbon</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/38d72n9d14/lisbon/" data-label_1="LISBON" data-label_2="WEATHER" data-theme="original">LISBON WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/pt/lisbon/274087/weather-forecast/274087" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- PORTO ----------------- -->
+<section id="porto">
+  <h2>Porto</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/41d16n8d63/porto/" data-label_1="PORTO" data-label_2="WEATHER" data-theme="original">PORTO WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/pt/porto/275317/weather-forecast/275317?city=porto" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- BRUSSELS ----------------- -->
+<section id="brussels">
+  <h2>Brussels</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/50d854d35/brussels/" data-label_1="BRUSSELS" data-label_2="WEATHER" data-theme="original">BRUSSELS WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/be/brussels/27581/weather-forecast/27581?city=brussels" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- SINTRA ----------------- -->
+<section id="sintra">
+  <h2>Sintra</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/38d80n9d38/sintra/" data-label_1="SINTRA" data-label_2="WEATHER" data-theme="original">SINTRA WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/pt/sintra/274008/weather-forecast/274008" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- EVORA ----------------- -->
+<section id="evora">
+  <h2>Evora</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/38d80n9d38/evora/" data-label_1="EVORA" data-label_2="WEATHER" data-theme="original">EVORA WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/pt/evora/1-273140_1_al/weather-forecast/1-273140_1_al?city=%C3%89vora" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<!-- ----------------- ARGANIL ----------------- -->
+<section id="arganil">
+  <h2>Arganil</h2>
+  <a class="weatherwidget-io" href="https://forecast7.com/en/40d22n8d05/arganil/" data-label_1="ARGANIL" data-label_2="WEATHER" data-theme="original">ARGANIL WEATHER</a>
+  <script>
+  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+  </script>
+  <p><a href="https://www.accuweather.com/en/pt/arganil/272819/weather-forecast/272819?city=arganil" target="_blank"><button>Go to Full Weather Site</button></a></p>
+</section>
+
+<script>
+function scrollToSection(sectionId){
+  const headerOffset = 70;
+  const element = document.getElementById(sectionId);
+  const elementPosition = element.getBoundingClientRect().top;
+  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+}
+</script>
+
+</body>
+</html>
