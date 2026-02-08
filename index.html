@@ -1,318 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Neuro Exploring</title>
 
-<style>
-:root {
-  --bg: #000;
-  --text: #fff;
-  --row-light: #1a1a1a;
-  --row-dark: #000;
-  --hover: #333;
-}
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
+<style>
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #000;
+  color: #fff;
 }
 
 header {
+  padding: 16px;
   text-align: center;
-  padding: 15px;
-  border-bottom: 1px solid #444;
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
-header h1 {margin: 0;}
-
-nav {
-  text-align: center;
+select, input {
+  width: 100%;
   padding: 10px;
-}
-
-nav select {
-  padding: 8px 12px;
+  margin: 10px 0;
   font-size: 1rem;
-  border-radius: 6px;
-  background: #111;
-  color: #fff;
-  border: 1px solid #fff;
 }
 
 section {
   padding: 20px;
-  margin: 20px auto;
-  width: 90%;
-  max-width: 1000px;
-  background: #111;
-  border-radius: 8px;
+  border-top: 1px solid #333;
 }
 
-h2 {margin-top:0;}
+h2 {
+  margin-top: 0;
+}
 
-.table-container {
-  overflow-x:auto;
-  border:1px solid #fff;
-  border-radius:6px;
-  max-height:400px;
-  margin-top:10px;
+.weather-btn {
+  display: inline-block;
+  margin: 10px 0;
+  padding: 10px 16px;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.table-wrap {
+  max-height: 400px;
+  overflow: auto;
+  border: 1px solid #444;
+  margin-top: 10px;
 }
 
 table {
-  width:100%;
-  border-collapse:collapse;
-  min-width:600px;
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px;
 }
+
 th, td {
-  padding:8px;
-  border-bottom:1px solid #444;
-  font-size:0.9rem;
+  padding: 8px;
+  border-bottom: 1px solid #333;
+  text-align: left;
 }
+
 th {
-  background:#222;
-  position:sticky;
-  top:0;
-}
-tbody tr:nth-child(even){background:var(--row-light);}
-tbody tr:nth-child(odd){background:var(--row-dark);}
-tbody tr:hover{background:var(--hover);}
-
-input.search {
-  width:100%;
-  padding:8px;
-  margin-bottom:10px;
-  border-radius:6px;
-  border:1px solid #444;
-  background:#000;
-  color:#fff;
+  position: sticky;
+  top: 0;
+  background: #111;
 }
 
-button.weatherBtn {
-  margin-top:8px;
-  padding:8px 16px;
-  background:#000;
-  color:#fff;
-  border:1px solid #fff;
-  border-radius:6px;
-  cursor:pointer;
+.search {
+  margin-bottom: 10px;
 }
-button.weatherBtn:hover {background:var(--hover);}
 </style>
-
 </head>
+
 <body>
 
-<header>
-  <h1>Neuro Exploring</h1>
-</header>
+<header>Neuro Exploring</header>
 
-<nav>
-  <select id="citySelector" onchange="selectCity()">
-    <option value="">Select a city...</option>
-    <option value="paris">Paris</option>
-    <option value="barcelona">Barcelona</option>
-    <option value="lisbon">Lisbon</option>
-    <option value="brussels">Brussels</option>
-  </select>
-</nav>
+<select onchange="location.hash=this.value">
+  <option value="">Jump to city…</option>
+  <option value="#paris">Paris</option>
+  <option value="#barcelona">Barcelona</option>
+  <option value="#lisbon">Lisbon</option>
+  <option value="#brussels">Brussels</option>
+  <option value="#porto">Porto</option>
+  <option value="#sintra">Sintra</option>
+  <option value="#evora">Evora</option>
+  <option value="#arganil">Arganil</option>
+</select>
 
-<!-- ================== PARIS ================== -->
-<section id="paris">
-  <h2>Paris</h2>
-
-  <!-- Weather widget -->
-  <a class="weatherwidget-io" href="https://forecast7.com/en/48d862d35/paris/" data-label_1="PARIS" data-label_2="WEATHER" data-theme="original">PARIS WEATHER</a>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
-
-  <p><a href="https://www.accuweather.com/en/fr/paris/623/weather-forecast/623" target="_blank">
-      <button class="weatherBtn">Full Paris Weather Site</button>
-  </a></p>
-
-  <input type="text" id="searchParis" class="search" placeholder="Search Paris table...">
-  <div class="table-container">
-    <table id="parisTable">
-      <thead><tr id="parisHeader"></tr></thead>
-      <tbody id="parisBody"></tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ================== BARCELONA ================== -->
-<section id="barcelona">
-  <h2>Barcelona</h2>
-
-  <!-- Weather widget -->
-  <a class="weatherwidget-io" href="https://forecast7.com/en/41d392d17/barcelona/" data-label_1="BARCELONA" data-label_2="WEATHER" data-theme="original">BARCELONA WEATHER</a>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
-
-  <p><a href="https://www.accuweather.com/en/es/la-barceloneta/1466824/weather-forecast/1466824" target="_blank">
-      <button class="weatherBtn">Full Barcelona Weather Site</button>
-  </a></p>
-
-  <input type="text" id="searchBarcelona" class="search" placeholder="Search Barcelona table...">
-  <div class="table-container">
-    <table id="barcelonaTable">
-      <thead><tr id="barcelonaHeader"></tr></thead>
-      <tbody id="barcelonaBody"></tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ================== LISBON ================== -->
-<section id="lisbon">
-  <h2>Lisbon</h2>
-
-  <!-- Weather widget -->
-  <a class="weatherwidget-io" href="https://forecast7.com/en/38d72n9d14/lisbon/" data-label_1="LISBON" data-label_2="WEATHER" data-theme="original">LISBON WEATHER</a>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
-
-  <p><a href="https://www.accuweather.com/en/pt/lisbon/274087/weather-forecast/274087" target="_blank">
-      <button class="weatherBtn">Full Lisbon Weather Site</button>
-  </a></p>
-
-  <input type="text" id="searchLisbon" class="search" placeholder="Search Lisbon table...">
-  <div class="table-container">
-    <table id="lisbonTable">
-      <thead><tr id="lisbonHeader"></tr></thead>
-      <tbody id="lisbonBody"></tbody>
-    </table>
-  </div>
-</section>
-
-<!-- ================== BRUSSELS ================== -->
-<section id="brussels">
-  <h2>Brussels</h2>
-
-  <!-- Weather widget -->
-  <a class="weatherwidget-io" href="https://forecast7.com/en/50d854d35/brussels/" data-label_1="BRUSSELS" data-label_2="WEATHER" data-theme="original">BRUSSELS WEATHER</a>
-  <script>
-  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-  if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
-  </script>
-
-  <p><a href="https://www.accuweather.com/en/be/brussels/27581/weather-forecast/27581?city=brussels" target="_blank">
-      <button class="weatherBtn">Full Brussels Weather Site</button>
-  </a></p>
-
-  <input type="text" id="searchBrussels" class="search" placeholder="Search Brussels table...">
-  <div class="table-container">
-    <table id="brusselsTable">
-      <thead><tr id="brusselsHeader"></tr></thead>
-      <tbody id="brusselsBody"></tbody>
-    </table>
-  </div>
-</section>
-
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+<!-- TEMPLATE SECTION -->
 <script>
-// ————— Smooth scroll from dropdown —————
-function selectCity(){
-  const id = document.getElementById("citySelector").value;
-  if(id) document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
+function loadSheet(csvUrl, tableId, searchId) {
+  Papa.parse(csvUrl, {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: results => {
+      const table = document.getElementById(tableId);
+      const thead = table.querySelector("thead");
+      const tbody = table.querySelector("tbody");
+      thead.innerHTML = "";
+      tbody.innerHTML = "";
 
-// ————— PARIS CSV —————
-const parisUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?output=csv&gid=1212655798";
-function loadParis(){
-  Papa.parse(parisUrl, {download:true, header:true, skipEmptyLines:true,
-    complete:function(r){
-      const data = r.data, h=document.getElementById("parisHeader"), b=document.getElementById("parisBody");
-      h.innerHTML=""; b.innerHTML="";
-      if(!data) return;
-      Object.keys(data[0]).forEach(k => {const th=document.createElement("th"); th.textContent=k; h.appendChild(th);});
-      data.forEach(row => {
-        const tr=document.createElement("tr");
-        Object.keys(row).forEach(k => {const td=document.createElement("td"); td.textContent=row[k]; tr.appendChild(td);});
-        b.appendChild(tr);
+      const headers = Object.keys(results.data[0]);
+      const tr = document.createElement("tr");
+      headers.forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        tr.appendChild(th);
+      });
+      thead.appendChild(tr);
+
+      results.data.forEach(row => {
+        const tr = document.createElement("tr");
+        headers.forEach(h => {
+          const td = document.createElement("td");
+          td.textContent = row[h];
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById(searchId).addEventListener("input", e => {
+        const q = e.target.value.toLowerCase();
+        [...tbody.rows].forEach(r => {
+          r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
+        });
       });
     }
   });
 }
-loadParis();
-document.getElementById("searchParis").addEventListener("input",function(){
-  const f=this.value.toLowerCase();
-  document.querySelectorAll("#parisBody tr").forEach(tr=>{
-    tr.style.display = tr.textContent.toLowerCase().includes(f)?"":"none";
-  });
-});
+</script>
 
-// ————— BARCELONA CSV —————
-const barcUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?output=csv&gid=69336755";
-function loadBarcelona(){
-  Papa.parse(barcUrl, {download:true, header:true, skipEmptyLines:true,
-    complete:function(r){
-      const data=r.data, h=document.getElementById("barcelonaHeader"), b=document.getElementById("barcelonaBody");
-      h.innerHTML=""; b.innerHTML="";
-      if(!data) return;
-      Object.keys(data[0]).forEach(k=>{const th=document.createElement("th"); th.textContent=k; h.appendChild(th);});
-      data.forEach(row=>{const tr=document.createElement("tr"); Object.keys(row).forEach(k=>{const td=document.createElement("td"); td.textContent=row[k]; tr.appendChild(td);}); b.appendChild(tr);});
-    }
-  });
-}
-loadBarcelona();
-document.getElementById("searchBarcelona").addEventListener("input",function(){
-  const f=this.value.toLowerCase();
-  document.querySelectorAll("#barcelonaBody tr").forEach(tr=>{
-    tr.style.display = tr.textContent.toLowerCase().includes(f)?"":"none";
-  });
-});
+<!-- PARIS -->
+<section id="paris">
+<h2>Paris</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/48d862d35/paris/" data-label_1="PARIS" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/fr/paris/623/weather-forecast/623" target="_blank">Open Weather</a>
+<input class="search" id="s-paris" placeholder="Search Paris…">
+<div class="table-wrap">
+<table id="t-paris"><thead></thead><tbody></tbody></table>
+</div>
+</section>
 
-// ————— LISBON CSV —————
-const lisbonUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?output=csv&gid=607791230";
-function loadLisbon(){
-  Papa.parse(lisbonUrl, {download:true, header:true, skipEmptyLines:true,
-    complete:function(r){
-      const data=r.data, h=document.getElementById("lisbonHeader"), b=document.getElementById("lisbonBody");
-      h.innerHTML=""; b.innerHTML="";
-      if(!data) return;
-      Object.keys(data[0]).forEach(k=>{const th=document.createElement("th"); th.textContent=k; h.appendChild(th);});
-      data.forEach(row=>{const tr=document.createElement("tr"); Object.keys(row).forEach(k=>{const td=document.createElement("td"); td.textContent=row[k]; tr.appendChild(td);}); b.appendChild(tr);});
-    }
-  });
-}
-loadLisbon();
-document.getElementById("searchLisbon").addEventListener("input",function(){
-  const f=this.value.toLowerCase();
-  document.querySelectorAll("#lisbonBody tr").forEach(tr=>{
-    tr.style.display = tr.textContent.toLowerCase().includes(f)?"":"none";
-  });
-});
+<!-- BARCELONA -->
+<section id="barcelona">
+<h2>Barcelona</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/41d392d17/barcelona/" data-label_1="BARCELONA" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/es/la-barceloneta/1466824/weather-forecast/1466824" target="_blank">Open Weather</a>
+<input class="search" id="s-barcelona" placeholder="Search Barcelona…">
+<div class="table-wrap">
+<table id="t-barcelona"><thead></thead><tbody></tbody></table>
+</div>
+</section>
 
-// ————— BRUSSELS CSV —————
-const brussUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?output=csv&gid=1423498764";
-function loadBrussels(){
-  Papa.parse(brussUrl, {download:true, header:true, skipEmptyLines:true,
-    complete:function(r){
-      const data=r.data, h=document.getElementById("brusselsHeader"), b=document.getElementById("brusselsBody");
-      h.innerHTML=""; b.innerHTML="";
-      if(!data) return;
-      Object.keys(data[0]).forEach(k=>{const th=document.createElement("th"); th.textContent=k; h.appendChild(th);});
-      data.forEach(row=>{const tr=document.createElement("tr"); Object.keys(row).forEach(k=>{const td=document.createElement("td"); td.textContent=row[k]; tr.appendChild(td);}); b.appendChild(tr);});
-    }
-  });
-}
-loadBrussels();
-document.getElementById("searchBrussels").addEventListener("input",function(){
-  const f=this.value.toLowerCase();
-  document.querySelectorAll("#brusselsBody tr").forEach(tr=>{
-    tr.style.display = tr.textContent.toLowerCase().includes(f)?"":"none";
-  });
-});
+<!-- LISBON -->
+<section id="lisbon">
+<h2>Lisbon</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/38d72n9d14/lisbon/" data-label_1="LISBON" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/pt/lisbon/274087/weather-forecast/274087" target="_blank">Open Weather</a>
+<input class="search" id="s-lisbon" placeholder="Search Lisbon…">
+<div class="table-wrap">
+<table id="t-lisbon"><thead></thead><tbody></tbody></table>
+</div>
+</section>
 
+<!-- BRUSSELS -->
+<section id="brussels">
+<h2>Brussels</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/50d854d35/brussels/" data-label_1="BRUSSELS" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/be/brussels/27581/weather-forecast/27581" target="_blank">Open Weather</a>
+<input class="search" id="s-brussels" placeholder="Search Brussels…">
+<div class="table-wrap">
+<table id="t-brussels"><thead></thead><tbody></tbody></table>
+</div>
+</section>
+
+<!-- PORTO -->
+<section id="porto">
+<h2>Porto</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/41d16n8d63/porto/" data-label_1="PORTO" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/pt/porto/275317/weather-forecast/275317" target="_blank">Open Weather</a>
+<input class="search" id="s-porto" placeholder="Search Porto…">
+<div class="table-wrap">
+<table id="t-porto"><thead></thead><tbody></tbody></table>
+</div>
+</section>
+
+<!-- SINTRA -->
+<section id="sintra">
+<h2>Sintra</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/38d80n9d38/sintra/" data-label_1="SINTRA" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/pt/sintra/274008/weather-forecast/274008" target="_blank">Open Weather</a>
+<input class="search" id="s-sintra" placeholder="Search Sintra…">
+<div class="table-wrap">
+<table id="t-sintra"><thead></thead><tbody></tbody></table>
+</div>
+</section>
+
+<!-- EVORA -->
+<section id="evora">
+<h2>Evora</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/38d57n7d91/evora/" data-label_1="EVORA" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/pt/evora/1-273140_1_al/weather-forecast/1-273140_1_al" target="_blank">Open Weather</a>
+<input class="search" id="s-evora" placeholder="Search Evora…">
+<div class="table-wrap">
+<table id="t-evora"><thead></thead><tbody></tbody></table>
+</div>
+</section>
+
+<!-- ARGANIL -->
+<section id="arganil">
+<h2>Arganil</h2>
+<a class="weatherwidget-io" href="https://forecast7.com/en/40d22n8d05/arganil/" data-label_1="ARGANIL" data-label_2="WEATHER"></a>
+<a class="weather-btn" href="https://www.accuweather.com/en/pt/arganil/272819/weather-forecast/272819" target="_blank">Open Weather</a>
+<input class="search" id="s-arganil" placeholder="Search Arganil…">
+<div class="table-wrap">
+<table id="t-arganil"><thead></thead><tbody></tbody></table>
+</div>
+</section>
+
+<script>
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1212655798&output=csv","t-paris","s-paris");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=69336755&output=csv","t-barcelona","s-barcelona");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=607791230&output=csv","t-lisbon","s-lisbon");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1423498764&output=csv","t-brussels","s-brussels");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=898879282&output=csv","t-porto","s-porto");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=2114625393&output=csv","t-sintra","s-sintra");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=500745641&output=csv","t-evora","s-evora");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1882678401&output=csv","t-arganil","s-arganil");
+</script>
+
+<script>
+!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
+if(!d.getElementById(id)){
+js=d.createElement(s);js.id=id;
+js.src='https://weatherwidget.io/js/widget.min.js';
+fjs.parentNode.insertBefore(js,fjs);}
+}(document,'script','weatherwidget-io-js');
 </script>
 
 </body>
