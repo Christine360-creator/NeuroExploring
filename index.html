@@ -8,235 +8,238 @@
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
 
 <style>
+:root {
+  --bg: #000;
+  --card: #111;
+  --text: #fff;
+  --muted: #bbb;
+  --line: #333;
+  --accent: #4ea1ff;
+}
+
 body {
   margin: 0;
-  background: #000;
-  color: #fff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
 }
 
 header {
-  text-align: center;
-  padding: 16px;
-  font-size: 1.8rem;
-  font-weight: 600;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--card);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--line);
 }
 
-select, input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+header h1 {
   font-size: 1rem;
+  margin: 0;
+}
+
+select {
+  background: #000;
+  color: #fff;
+  border: 1px solid var(--line);
+  padding: 6px;
+  border-radius: 6px;
 }
 
 section {
-  padding: 20px;
-  border-top: 1px solid #333;
+  max-width: 1100px;
+  margin: 24px auto;
+  padding: 0 12px;
 }
 
 h2 {
-  margin-top: 0;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 6px;
 }
 
-.weather-btn {
-  display: inline-block;
-  margin: 10px 0;
-  padding: 10px 16px;
-  background: #fff;
-  color: #000;
-  text-decoration: none;
+.divider {
+  height: 1px;
+  background: var(--line);
+  margin: 8px auto 16px;
+  width: 60%;
+}
+
+.search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
   border-radius: 6px;
-  font-weight: 600;
+  border: 1px solid var(--line);
+  background: #000;
+  color: #fff;
 }
 
 .table-wrap {
+  overflow-x: auto;
   max-height: 420px;
-  overflow: auto;
-  border: 1px solid #444;
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 750px;
+  min-width: 700px;
 }
 
 th, td {
   padding: 8px;
-  border-bottom: 1px solid #333;
-  text-align: left;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
 }
 
 th {
   position: sticky;
   top: 0;
-  background: #111;
+  background: #000;
 }
 
-.search {
-  margin-bottom: 10px;
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+@media (max-width: 600px) {
+  h2 { font-size: 1.1rem; }
+  th, td { font-size: 0.8rem; }
 }
 </style>
 </head>
 
 <body>
 
-<header>Neuro Exploring</header>
+<header>
+  <h1>🧠 Neuro Exploring</h1>
+  <select onchange="location.href=this.value">
+    <option value="#">Jump to…</option>
+    <option value="#master">🗂 Master Plan</option>
+    <option value="#paris">🇫🇷 Paris</option>
+    <option value="#brussels">🇧🇪 Brussels</option>
+    <option value="#barcelona">🇪🇸 Barcelona</option>
+    <option value="#lisbon">🇵🇹 Lisbon</option>
+    <option value="#porto">🌊 Porto</option>
+    <option value="#sintra">🏰 Sintra</option>
+    <option value="#evora">🏛 Évora</option>
+    <option value="#arganil">🌿 Arganil</option>
+  </select>
+</header>
 
-<select onchange="location.hash=this.value">
-  <option value="">Jump to city…</option>
-  <option value="#paris">Paris</option>
-  <option value="#barcelona">Barcelona</option>
-  <option value="#lisbon">Lisbon</option>
-  <option value="#brussels">Brussels</option>
-  <option value="#porto">Porto</option>
-  <option value="#sintra">Sintra</option>
-  <option value="#evora">Evora</option>
-  <option value="#arganil">Arganil</option>
-</select>
+<!-- MASTER SHEET -->
+<section id="master">
+  <h2>🗂 Master Plan</h2>
+  <div class="divider"></div>
+  <input class="search" placeholder="Search everything…" oninput="filterTable(this, 'masterBody')">
+  <div class="table-wrap">
+    <table>
+      <thead><tr id="masterHead"></tr></thead>
+      <tbody id="masterBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CITY SECTIONS -->
+<section id="paris"><h2>📍 Paris</h2><div class="divider"></div>
+<input class="search" placeholder="Search Paris…" oninput="filterTable(this,'parisBody')">
+<div class="table-wrap"><table><thead><tr id="parisHead"></tr></thead><tbody id="parisBody"></tbody></table></div>
+</section>
+
+<section id="brussels"><h2>📍 Brussels</h2><div class="divider"></div>
+<input class="search" placeholder="Search Brussels…" oninput="filterTable(this,'brusselsBody')">
+<div class="table-wrap"><table><thead><tr id="brusselsHead"></tr></thead><tbody id="brusselsBody"></tbody></table></div>
+</section>
+
+<section id="barcelona"><h2>📍 Barcelona</h2><div class="divider"></div>
+<input class="search" placeholder="Search Barcelona…" oninput="filterTable(this,'barcelonaBody')">
+<div class="table-wrap"><table><thead><tr id="barcelonaHead"></tr></thead><tbody id="barcelonaBody"></tbody></table></div>
+</section>
+
+<section id="lisbon"><h2>📍 Lisbon</h2><div class="divider"></div>
+<input class="search" placeholder="Search Lisbon…" oninput="filterTable(this,'lisbonBody')">
+<div class="table-wrap"><table><thead><tr id="lisbonHead"></tr></thead><tbody id="lisbonBody"></tbody></table></div>
+</section>
+
+<section id="porto"><h2>📍 Porto</h2><div class="divider"></div>
+<input class="search" placeholder="Search Porto…" oninput="filterTable(this,'portoBody')">
+<div class="table-wrap"><table><thead><tr id="portoHead"></tr></thead><tbody id="portoBody"></tbody></table></div>
+</section>
+
+<section id="sintra"><h2>📍 Sintra</h2><div class="divider"></div>
+<input class="search" placeholder="Search Sintra…" oninput="filterTable(this,'sintraBody')">
+<div class="table-wrap"><table><thead><tr id="sintraHead"></tr></thead><tbody id="sintraBody"></tbody></table></div>
+</section>
+
+<section id="evora"><h2>📍 Évora</h2><div class="divider"></div>
+<input class="search" placeholder="Search Évora…" oninput="filterTable(this,'evoraBody')">
+<div class="table-wrap"><table><thead><tr id="evoraHead"></tr></thead><tbody id="evoraBody"></tbody></table></div>
+</section>
+
+<section id="arganil"><h2>📍 Arganil</h2><div class="divider"></div>
+<input class="search" placeholder="Search Arganil…" oninput="filterTable(this,'arganilBody')">
+<div class="table-wrap"><table><thead><tr id="arganilHead"></tr></thead><tbody id="arganilBody"></tbody></table></div>
+</section>
 
 <script>
-function loadSheet(csvUrl, tableId, searchId) {
-  Papa.parse(csvUrl, {
+function loadSheet(csv, headId, bodyId) {
+  Papa.parse(csv, {
     download: true,
-    header: false,
+    header: true,
     skipEmptyLines: true,
-    complete: results => {
-      const rows = results.data;
-      const headers = rows[1];   // REAL headers
-      const dataRows = rows.slice(2); // REAL data
+    complete: res => {
+      const head = document.getElementById(headId);
+      const body = document.getElementById(bodyId);
+      head.innerHTML = '';
+      body.innerHTML = '';
+      if (!res.data.length) return;
 
-      const table = document.getElementById(tableId);
-      const thead = table.querySelector("thead");
-      const tbody = table.querySelector("tbody");
-
-      thead.innerHTML = "";
-      tbody.innerHTML = "";
-
-      const trHead = document.createElement("tr");
-      headers.forEach(h => {
-        const th = document.createElement("th");
-        th.textContent = h;
-        trHead.appendChild(th);
+      Object.keys(res.data[0]).forEach(k => {
+        const th = document.createElement('th');
+        th.textContent = k;
+        head.appendChild(th);
       });
-      thead.appendChild(trHead);
 
-      dataRows.forEach(r => {
-        const tr = document.createElement("tr");
-        headers.forEach((_, i) => {
-          const td = document.createElement("td");
-          td.textContent = r[i] || "";
+      res.data.forEach(row => {
+        const tr = document.createElement('tr');
+        Object.values(row).forEach(v => {
+          const td = document.createElement('td');
+          td.innerHTML = v?.startsWith('http') ? `<a href="${v}" target="_blank">🔗 Link</a>` : v;
           tr.appendChild(td);
         });
-        tbody.appendChild(tr);
-      });
-
-      document.getElementById(searchId).addEventListener("input", e => {
-        const q = e.target.value.toLowerCase();
-        [...tbody.rows].forEach(r => {
-          r.style.display = r.innerText.toLowerCase().includes(q) ? "" : "none";
-        });
+        body.appendChild(tr);
       });
     }
   });
 }
-</script>
 
-<!-- PARIS -->
-<section id="paris">
-<h2>Paris</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/48d862d35/paris/" data-label_1="PARIS" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/fr/paris/623/weather-forecast/623" target="_blank">Open Weather</a>
-<input class="search" id="s-paris" placeholder="Search Paris…">
-<div class="table-wrap"><table id="t-paris"><thead></thead><tbody></tbody></table></div>
-</section>
+function filterTable(input, bodyId) {
+  const q = input.value.toLowerCase();
+  document.querySelectorAll(`#${bodyId} tr`).forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
 
-<!-- BARCELONA -->
-<section id="barcelona">
-<h2>Barcelona</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/41d392d17/barcelona/" data-label_1="BARCELONA" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/es/la-barceloneta/1466824/weather-forecast/1466824" target="_blank">Open Weather</a>
-<input class="search" id="s-barcelona" placeholder="Search Barcelona…">
-<div class="table-wrap"><table id="t-barcelona"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<!-- LISBON -->
-<section id="lisbon">
-<h2>Lisbon</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/38d72n9d14/lisbon/" data-label_1="LISBON" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/pt/lisbon/274087/weather-forecast/274087" target="_blank">Open Weather</a>
-<input class="search" id="s-lisbon" placeholder="Search Lisbon…">
-<div class="table-wrap"><table id="t-lisbon"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<!-- BRUSSELS -->
-<section id="brussels">
-<h2>Brussels</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/50d854d35/brussels/" data-label_1="BRUSSELS" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/be/brussels/27581/weather-forecast/27581" target="_blank">Open Weather</a>
-<input class="search" id="s-brussels" placeholder="Search Brussels…">
-<div class="table-wrap"><table id="t-brussels"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<!-- PORTO -->
-<section id="porto">
-<h2>Porto</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/41d16n8d63/porto/" data-label_1="PORTO" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/pt/porto/275317/weather-forecast/275317" target="_blank">Open Weather</a>
-<input class="search" id="s-porto" placeholder="Search Porto…">
-<div class="table-wrap"><table id="t-porto"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<!-- SINTRA -->
-<section id="sintra">
-<h2>Sintra</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/38d80n9d38/sintra/" data-label_1="SINTRA" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/pt/sintra/274008/weather-forecast/274008" target="_blank">Open Weather</a>
-<input class="search" id="s-sintra" placeholder="Search Sintra…">
-<div class="table-wrap"><table id="t-sintra"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<!-- EVORA -->
-<section id="evora">
-<h2>Evora</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/38d57n7d91/evora/" data-label_1="EVORA" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/pt/evora/1-273140_1_al/weather-forecast/1-273140_1_al" target="_blank">Open Weather</a>
-<input class="search" id="s-evora" placeholder="Search Evora…">
-<div class="table-wrap"><table id="t-evora"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<!-- ARGANIL -->
-<section id="arganil">
-<h2>Arganil</h2>
-<a class="weatherwidget-io" href="https://forecast7.com/en/40d22n8d05/arganil/" data-label_1="ARGANIL" data-label_2="WEATHER"></a>
-<a class="weather-btn" href="https://www.accuweather.com/en/pt/arganil/272819/weather-forecast/272819" target="_blank">Open Weather</a>
-<input class="search" id="s-arganil" placeholder="Search Arganil…">
-<div class="table-wrap"><table id="t-arganil"><thead></thead><tbody></tbody></table></div>
-</section>
-
-<script>
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1212655798&output=csv","t-paris","s-paris");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=69336755&output=csv","t-barcelona","s-barcelona");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=607791230&output=csv","t-lisbon","s-lisbon");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1423498764&output=csv","t-brussels","s-brussels");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=898879282&output=csv","t-porto","s-porto");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=2114625393&output=csv","t-sintra","s-sintra");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=500745641&output=csv","t-evora","s-evora");
-loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1882678401&output=csv","t-arganil","s-arganil");
-</script>
-
-<script>
-!function(d,s,id){
-  var js,fjs=d.getElementsByTagName(s)[0];
-  if(!d.getElementById(id)){
-    js=d.createElement(s);js.id=id;
-    js.src='https://weatherwidget.io/js/widget.min.js';
-    fjs.parentNode.insertBefore(js,fjs);
-  }
-}(document,'script','weatherwidget-io-js');
+/* LOAD ALL SHEETS */
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=326493742&single=true&output=csv","masterHead","masterBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1212655798&single=true&output=csv","parisHead","parisBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1423498764&single=true&output=csv","brusselsHead","brusselsBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=69336755&single=true&output=csv","barcelonaHead","barcelonaBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=607791230&single=true&output=csv","lisbonHead","lisbonBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=898879282&single=true&output=csv","portoHead","portoBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=2114625393&single=true&output=csv","sintraHead","sintraBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=500745641&single=true&output=csv","evoraHead","evoraBody");
+loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7emcz47Ru409GUED1JL6uzqcPIYpQe6iWBKFR2AT5YEo5bwYwOvlbIj7PTn/pub?gid=1882678401&single=true&output=csv","arganilHead","arganilBody");
 </script>
 
 </body>
 </html>
+
 
 
