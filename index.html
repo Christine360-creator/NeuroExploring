@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Neuro Exploring</title>
 
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
@@ -10,16 +10,16 @@
 <style>
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #000;
   color: #fff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 header {
-  padding: 16px;
   text-align: center;
+  padding: 16px;
   font-size: 1.8rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 select, input {
@@ -46,20 +46,19 @@ h2 {
   color: #000;
   text-decoration: none;
   border-radius: 6px;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .table-wrap {
-  max-height: 400px;
+  max-height: 420px;
   overflow: auto;
   border: 1px solid #444;
-  margin-top: 10px;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px;
+  min-width: 750px;
 }
 
 th, td {
@@ -96,34 +95,37 @@ th {
   <option value="#arganil">Arganil</option>
 </select>
 
-<!-- TEMPLATE SECTION -->
 <script>
 function loadSheet(csvUrl, tableId, searchId) {
   Papa.parse(csvUrl, {
     download: true,
-    header: true,
+    header: false,
     skipEmptyLines: true,
     complete: results => {
+      const rows = results.data;
+      const headers = rows[1];   // REAL headers
+      const dataRows = rows.slice(2); // REAL data
+
       const table = document.getElementById(tableId);
       const thead = table.querySelector("thead");
       const tbody = table.querySelector("tbody");
+
       thead.innerHTML = "";
       tbody.innerHTML = "";
 
-      const headers = Object.keys(results.data[0]);
-      const tr = document.createElement("tr");
+      const trHead = document.createElement("tr");
       headers.forEach(h => {
         const th = document.createElement("th");
         th.textContent = h;
-        tr.appendChild(th);
+        trHead.appendChild(th);
       });
-      thead.appendChild(tr);
+      thead.appendChild(trHead);
 
-      results.data.forEach(row => {
+      dataRows.forEach(r => {
         const tr = document.createElement("tr");
-        headers.forEach(h => {
+        headers.forEach((_, i) => {
           const td = document.createElement("td");
-          td.textContent = row[h];
+          td.textContent = r[i] || "";
           tr.appendChild(td);
         });
         tbody.appendChild(tr);
@@ -146,9 +148,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/48d862d35/paris/" data-label_1="PARIS" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/fr/paris/623/weather-forecast/623" target="_blank">Open Weather</a>
 <input class="search" id="s-paris" placeholder="Search Paris…">
-<div class="table-wrap">
-<table id="t-paris"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-paris"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- BARCELONA -->
@@ -157,9 +157,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/41d392d17/barcelona/" data-label_1="BARCELONA" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/es/la-barceloneta/1466824/weather-forecast/1466824" target="_blank">Open Weather</a>
 <input class="search" id="s-barcelona" placeholder="Search Barcelona…">
-<div class="table-wrap">
-<table id="t-barcelona"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-barcelona"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- LISBON -->
@@ -168,9 +166,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/38d72n9d14/lisbon/" data-label_1="LISBON" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/pt/lisbon/274087/weather-forecast/274087" target="_blank">Open Weather</a>
 <input class="search" id="s-lisbon" placeholder="Search Lisbon…">
-<div class="table-wrap">
-<table id="t-lisbon"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-lisbon"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- BRUSSELS -->
@@ -179,9 +175,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/50d854d35/brussels/" data-label_1="BRUSSELS" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/be/brussels/27581/weather-forecast/27581" target="_blank">Open Weather</a>
 <input class="search" id="s-brussels" placeholder="Search Brussels…">
-<div class="table-wrap">
-<table id="t-brussels"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-brussels"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- PORTO -->
@@ -190,9 +184,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/41d16n8d63/porto/" data-label_1="PORTO" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/pt/porto/275317/weather-forecast/275317" target="_blank">Open Weather</a>
 <input class="search" id="s-porto" placeholder="Search Porto…">
-<div class="table-wrap">
-<table id="t-porto"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-porto"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- SINTRA -->
@@ -201,9 +193,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/38d80n9d38/sintra/" data-label_1="SINTRA" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/pt/sintra/274008/weather-forecast/274008" target="_blank">Open Weather</a>
 <input class="search" id="s-sintra" placeholder="Search Sintra…">
-<div class="table-wrap">
-<table id="t-sintra"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-sintra"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- EVORA -->
@@ -212,9 +202,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/38d57n7d91/evora/" data-label_1="EVORA" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/pt/evora/1-273140_1_al/weather-forecast/1-273140_1_al" target="_blank">Open Weather</a>
 <input class="search" id="s-evora" placeholder="Search Evora…">
-<div class="table-wrap">
-<table id="t-evora"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-evora"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <!-- ARGANIL -->
@@ -223,9 +211,7 @@ function loadSheet(csvUrl, tableId, searchId) {
 <a class="weatherwidget-io" href="https://forecast7.com/en/40d22n8d05/arganil/" data-label_1="ARGANIL" data-label_2="WEATHER"></a>
 <a class="weather-btn" href="https://www.accuweather.com/en/pt/arganil/272819/weather-forecast/272819" target="_blank">Open Weather</a>
 <input class="search" id="s-arganil" placeholder="Search Arganil…">
-<div class="table-wrap">
-<table id="t-arganil"><thead></thead><tbody></tbody></table>
-</div>
+<div class="table-wrap"><table id="t-arganil"><thead></thead><tbody></tbody></table></div>
 </section>
 
 <script>
@@ -240,14 +226,17 @@ loadSheet("https://docs.google.com/spreadsheets/d/e/2PACX-1vTuH1oIZ8a1L4Na_5cq-7
 </script>
 
 <script>
-!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];
-if(!d.getElementById(id)){
-js=d.createElement(s);js.id=id;
-js.src='https://weatherwidget.io/js/widget.min.js';
-fjs.parentNode.insertBefore(js,fjs);}
+!function(d,s,id){
+  var js,fjs=d.getElementsByTagName(s)[0];
+  if(!d.getElementById(id)){
+    js=d.createElement(s);js.id=id;
+    js.src='https://weatherwidget.io/js/widget.min.js';
+    fjs.parentNode.insertBefore(js,fjs);
+  }
 }(document,'script','weatherwidget-io-js');
 </script>
 
 </body>
 </html>
+
 
